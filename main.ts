@@ -1,30 +1,74 @@
+let inGame = false
+let crosshair: game.LedSprite = null
+let listaBotPlatserX: number[] = []
+let listaBotPlatserY: number[] = []
+let a = 0
+let b = 0
+let match = false
+function gameStartAnim () {
+    for (let index = 0; index < 2; index++) {
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            `)
+        basic.showLeds(`
+            . . . . .
+            . # # # .
+            . # . # .
+            . # # # .
+            . . . . .
+            `)
+        basic.showLeds(`
+            # # # # #
+            # . . . #
+            # . . . #
+            # . . . #
+            # # # # #
+            `)
+    }
+    basic.clearScreen()
+}
+input.onButtonPressed(Button.A, function () {
+    if (inGame) {
+    	
+    }
+})
+function startBoomBoom () {
+    inGame = true
+    crosshair = game.createSprite(0, 0)
+}
+input.onButtonPressed(Button.B, function () {
+    if (inGame) {
+    	
+    }
+})
 input.onGesture(Gesture.Shake, function () {
+    gameStartAnim()
     placeBots()
 })
 function placeBots () {
+    listaBotPlatserX = []
+    listaBotPlatserY = []
     while (listaBotPlatserX.length < 8) {
-        Bot = game.createSprite(0, 0)
-        Bot.set(LedSpriteProperty.Y, randint(0, 4))
-        Bot.set(LedSpriteProperty.X, randint(0, 4))
-        if (listaBotPlatserX.length > 0) {
-            for (let value of listaBotPlatserX) {
-                for (let value of listaBotPlatserY) {
-                    // fixa sen
-                    if (Bot.get(LedSpriteProperty.X) == value && Bot.get(LedSpriteProperty.Y) == value) {
-                    	
-                    }
+        a = randint(0, 4)
+        b = randint(0, 4)
+        if (0 == listaBotPlatserX.length) {
+            listaBotPlatserX.push(a)
+            listaBotPlatserY.push(b)
+        } else {
+            match = false
+            for (let index = 0; index <= listaBotPlatserX.length; index++) {
+                if (a == listaBotPlatserX[index] && b == listaBotPlatserY[index]) {
+                    match = true
                 }
             }
-            listaBotPlatserX.push(Bot.get(LedSpriteProperty.X))
-            listaBotPlatserY.push(Bot.get(LedSpriteProperty.Y))
-        } else {
-            listaBotPlatserX.push(Bot.get(LedSpriteProperty.X))
-            listaBotPlatserY.push(Bot.get(LedSpriteProperty.Y))
+            if (!(match)) {
+                listaBotPlatserX.push(a)
+                listaBotPlatserY.push(b)
+            }
         }
     }
 }
-let Bot: game.LedSprite = null
-let listaBotPlatserX: number[] = []
-let listaBotPlatserY: number[] = []
-listaBotPlatserY = []
-listaBotPlatserX = []
