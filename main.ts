@@ -24,6 +24,36 @@ function gameStartAnim () {
     }
     basic.clearScreen()
 }
+function hit (x: number, y: number, index: number) {
+    crosshair.delete()
+    music.playTone(523, music.beat(BeatFraction.Whole))
+    basic.showLeds(`
+        . . . . .
+        . . . . .
+        . . # . .
+        . . . . .
+        . . . . .
+        `)
+    basic.showLeds(`
+        . . . . .
+        . . # . .
+        . # # # .
+        . . # . .
+        . . . . .
+        `)
+    basic.showLeds(`
+        . . # . .
+        . # # # .
+        # # # # #
+        . # # # .
+        . . # . .
+        `)
+    basic.clearScreen()
+    led.toggle(x, y)
+    listaBotPlatserX.removeAt(index)
+    listaBotPlatserY.removeAt(index)
+    crosshair = game.createSprite(x, y)
+}
 input.onButtonPressed(Button.A, function () {
     if (inGame) {
         if (crosshair.get(LedSpriteProperty.X) == 4) {
@@ -40,7 +70,15 @@ function startBoomBoom () {
 input.onButtonPressed(Button.AB, function () {
     if (inGame) {
         for (let index = 0; index <= listaBotPlatserX.length; index++) {
-        	
+            if (crosshair.get(LedSpriteProperty.X) == listaBotPlatserX[index] && crosshair.get(LedSpriteProperty.Y) == listaBotPlatserY[index]) {
+                hit(crosshair.get(LedSpriteProperty.X), crosshair.get(LedSpriteProperty.Y), index)
+                if (listaBotPlatserX.length == 0) {
+                    basic.showString("You Win!")
+                    inGame = false
+                    crosshair.delete()
+                    break;
+                }
+            }
         }
     }
 })
